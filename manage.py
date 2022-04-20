@@ -1,12 +1,13 @@
-#!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
 import os
 import sys
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'url_shortner.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
