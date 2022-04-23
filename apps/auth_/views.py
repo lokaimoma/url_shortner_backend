@@ -9,7 +9,10 @@ from rest_framework.response import Response
 @api_view(['GET'])
 def check_username_already_taken(request: Request, *args, **kwargs):
     try:
-        username = request.data['username']
+        username: str = request.query_params['username']
+        username = username.strip()
+        if username == '':
+            return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': 'Username can\'t be empty'})
         flag = True
         try:
             User.objects.get(username=username)
@@ -17,8 +20,4 @@ def check_username_already_taken(request: Request, *args, **kwargs):
             flag = False
         return Response(data={'taken': flag})
     except KeyError:
-        return Response(
-            status=status.HTTP_400_BAD_REQUEST,
-            data={
-                'error': 'A query param of key username is expected'
-            })
+        return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': 'A query param of key username is expected'})
