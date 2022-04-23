@@ -1,9 +1,11 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
+
+from apps.auth_ import serializers
 
 
 @api_view(['GET'])
@@ -21,3 +23,7 @@ def check_username_already_taken(request: Request, *args, **kwargs):
         return Response(data={'taken': flag})
     except KeyError:
         return Response(status=status.HTTP_400_BAD_REQUEST, data={'error': 'A query param of key username is expected'})
+
+
+class RegisterUserView(generics.CreateAPIView):
+    serializer_class = serializers.UserSerializer
