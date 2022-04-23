@@ -1,8 +1,7 @@
 name: Linksly Tests Runner
 on:
   push:
-    branches:
-      - *
+    branches: ['*']
 
 jobs:
   test:
