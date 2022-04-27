@@ -20,12 +20,9 @@ class URLSerializer(serializers.ModelSerializer):
             raise Http404
         user = request.user
         while True:
-            code = shortuuid.ShortUUID.random(length=5)
+            code = shortuuid.ShortUUID().random(length=5)
             try:
                 URL.objects.get(code=code)
             except ObjectDoesNotExist:
                 break
         return URL.objects.create(**validated_data, code=code, user_id=user.id)
-
-
-
