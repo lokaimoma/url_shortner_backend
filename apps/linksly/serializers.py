@@ -14,7 +14,7 @@ class URLSerializer(serializers.ModelSerializer):
         read_only_fields = ['date_created', 'code']
         exclude = ['user']
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
         request: Request = self.context.get('request')
         if not request:
             raise Http404
@@ -26,3 +26,8 @@ class URLSerializer(serializers.ModelSerializer):
             except ObjectDoesNotExist:
                 break
         return URL.objects.create(**validated_data, code=code, user_id=user.id)
+
+    def update(self, instance: URL, validated_data: dict):
+        instance.status = validated_data.get('status', instance.status)
+        instance.save()
+        return instance
