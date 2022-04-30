@@ -59,13 +59,15 @@ class TestEditURL(TestCase):
     def test_edit_url(self):
         url: URL = URLFactory()
         h = get_auth_headers(username=url.user.username, client=self.client)
-        payload = {'long_url': 'https://somenewurl.com'}
+        payload = {'long_url': 'https://somenewurl.com', 'status': 'OFFLINE'}
         r = self.client.put(path=reverse('url-detail', kwargs={'pk': url.code}), data=payload, **h,
                             content_type='application/json')
         self.assertEquals(r.status_code, status.HTTP_200_OK)
-        new_url = URL.objects.get(code=url.code)
-        self.assertNotEquals(new_url.long_url, url.long_url)
-        self.assertEquals(new_url.long_url, payload['long_url'])
+        _url = URL.objects.get(code=url.code)
+        self.assertEquals(_url.long_url, url.long_url)
+        self.assertNotEquals(_url.long_url, payload['long_url'])
+        self.assertNotEquals(_url.status, url.status)
+        self.assertEquals(_url.status, payload.get('status'))
 
 
 class TestDeleteURL(TestCase):
