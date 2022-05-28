@@ -3,7 +3,7 @@ from django.db import models
 
 
 class URL(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     code = models.CharField(max_length=255, primary_key=True)
     long_url = models.TextField()
     date_created = models.DateField(auto_now_add=True)
