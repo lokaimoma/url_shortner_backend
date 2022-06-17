@@ -1,4 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
@@ -24,8 +25,8 @@ def handle_redirect(request: Request, *args, **kwargs):
         url = URL.objects.get(pk=kwargs['code'], status=URL.status_choices[0][0])
         url.redirects = url.redirects + 1
         url.save()
-        response = Response(status=status.HTTP_307_TEMPORARY_REDIRECT)
+        response = Response(status=status.HTTP_307_TEMPORARY_REDIRECT, data={})
         response['Location'] = url.long_url
         return response
     except ObjectDoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND, template_name='linksly/404.html')
+        return render(request, 'linksly/404.html')
