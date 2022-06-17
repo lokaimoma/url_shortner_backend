@@ -2,9 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Link not found</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            width: 50%;
+            margin-inline: auto;
+        }
+
+        header > h2 {
+            color: blue;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        main p {
+            font-size: 1.2rem;
+            color: #6d6d6d;
+        }
+
+        img {
+            width: 70%;
+            margin-inline: auto;
+        }
+    </style>
 </head>
 <body>
-
+<header>
+    <a href="http://localhost:4200"><h2>Linksly</h2></a>
+</header>
+<main>
+    <img src="/static/404.png" alt="404 image">
+    <p><a href='https://pngtree.com/so/internet'>Image from pngtree.com/</a></p>
+    <p>
+        This is a 404 error, which means you've clicked on a bad link or entered an invalid URL. P.S. Linksly links are
+        case sensitive.
+    </p>
+</main>
 </body>
 </html>
