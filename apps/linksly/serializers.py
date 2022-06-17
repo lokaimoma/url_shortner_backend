@@ -9,6 +9,8 @@ from apps.linksly.models import URL
 
 
 class URLSerializer(serializers.ModelSerializer):
+    redirects = serializers.ReadOnlyField(source='get_redirect_count')
+
     class Meta:
         model = URL
         read_only_fields = ['date_created', 'code']

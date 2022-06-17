@@ -14,7 +14,6 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/check-username-exists/', auth_views.check_username_already_taken, name='check-user-name-exists'),
-    path('api/change-url-status/', linksly_views.change_url_status, name='change-url-status'),
     path('api/login/', auth_views.login_user, name='login'),
     path('api/register/', auth_views.RegisterUserView.as_view(), name='register-user'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
