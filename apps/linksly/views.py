@@ -29,4 +29,4 @@ def handle_redirect(request: Request, *args, **kwargs):
         response['Location'] = url.long_url
         return response
     except ObjectDoesNotExist:
-        return render(request, 'linksly/404.html',status=status.HTTP_400_BAD_REQUEST)
+        return render(request, 'linksly/404.html',status=status.HTTP_404_NOT_FOUND)
