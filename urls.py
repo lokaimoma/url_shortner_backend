@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 router.register(prefix='urls', viewset=linksly_views.URLViewSet, basename='url')
 
 urlpatterns = [
+    path('<str:code>/', linksly_views.handle_redirect, name='handle_redirects'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),
