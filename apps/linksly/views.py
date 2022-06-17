@@ -21,7 +21,7 @@ class URLViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 def handle_redirect(request: Request, *args, **kwargs):
     try:
-        url = URL.objects.get(pk=kwargs['code'])
+        url = URL.objects.get(pk=kwargs['code'], status=URL.status_choices[0][0])
         url.redirects = url.redirects + 1
         url.save()
         response = Response(status=status.HTTP_307_TEMPORARY_REDIRECT)

@@ -11,5 +11,5 @@ class URL(models.Model):
     code = models.CharField(max_length=255, primary_key=True)
     long_url = models.TextField()
     date_created = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=200, default='ACTIVE', choices=status_choices)
+    status = models.CharField(max_length=200, default=status_choices[0][0], choices=status_choices)
     redirects = models.IntegerField(default=0, blank=True)

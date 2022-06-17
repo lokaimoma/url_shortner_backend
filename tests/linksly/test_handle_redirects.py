@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 
+from apps.linksly.models import URL
 from tests import factories
 
 
@@ -19,4 +20,11 @@ class TestHandleRedirects(TestCase):
         self.assertIn('Location', r.headers.keys())
         self.assertEquals(r.headers['Location'], url.long_url)
         url.refresh_from_db()
-        self.assertEquals(url.redirects, redirect_count+1)
+        self.assertEquals(url.redirects, redirect_count + 1)
+
+    def test_urls_exist_not_active(self):
+        url = factories.URLFactory()
+        url.status = URL.status_choices[1][0]
+        url.save()
+        r = self.client.get(path=reverse('handle_redirects', kwargs={'code': url.code}))
+        self.assertEquals(r.status_code, status.HTTP_404_NOT_FOUND)
