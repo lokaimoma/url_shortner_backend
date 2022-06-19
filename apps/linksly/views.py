@@ -1,9 +1,14 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import AccessToken
+from strawberry.django.views import GraphQLView
 
 from apps.linksly.models import URL
 from apps.linksly.permissions import IsOwner
@@ -29,4 +34,18 @@ def handle_redirect(request: Request, *args, **kwargs):
         response['Location'] = url.long_url
         return response
     except ObjectDoesNotExist:
-        return render(request, 'linksly/404.html',status=status.HTTP_404_NOT_FOUND)
+        return render(request, 'linksly/404.html', status=status.HTTP_404_NOT_FOUND)
+
+
+class LinkslyGraphqlView(GraphQLView):
+    def get_context(self, request: Request, response: HttpResponse) -> dict:
+        try:
+            tk = request.headers['Authorization'].split(" ")[1]
+            token = AccessToken(token=tk)
+            request.user = User.objects.get(pk=token['user_id'])
+        except (TokenError, KeyError, IndexError):
+            pass
+        return {
+            'request': request,
+            'response': response
+        }
