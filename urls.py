@@ -1,13 +1,17 @@
+import strawberry
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from strawberry.django.views import GraphQLView
 
 from apps.auth_ import views as auth_views
 from apps.linksly import views as linksly_views
+from apps.linksly.schemas import Query
 
 router = routers.DefaultRouter()
 router.register(prefix='urls', viewset=linksly_views.URLViewSet, basename='url')
+schema = strawberry.Schema(query=Query)
 
 urlpatterns = [
     path('<str:code>/', linksly_views.handle_redirect, name='handle_redirects'),
@@ -19,4 +23,5 @@ urlpatterns = [
     path('api/register/', auth_views.RegisterUserView.as_view(), name='register-user'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('graphql/', GraphQLView.as_view(schema=schema, graphiql=False)),
 ]
