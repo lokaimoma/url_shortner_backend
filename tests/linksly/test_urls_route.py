@@ -1,4 +1,5 @@
 # Created by Kelvin_Clark on 4/27/22, 3:37 PM
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
@@ -78,3 +79,36 @@ class TestDeleteURL(TestCase):
         self.assertEquals(r.status_code, status.HTTP_204_NO_CONTENT)
         urls = URL.objects.filter(user_id=url.user.id)
         self.assertEquals(len(urls), 0)
+
+
+class TestUpdateUserCredentials(TestCase):
+    def test_changes_permitted(self):
+        user: User = UserFactory()
+        header = get_auth_headers(username=user.username, client=self.client)
+        payload = {'username': faker.unique.first_name(), 'first_name': faker.unique.first_name(),
+                   'last_name': faker.unique.last_name(), 'email': faker.unique.email()}
+        r = self.client.put(path=reverse('update-info'), data=payload, content_type='application/json', **header)
+        user.refresh_from_db()
+        self.assertEquals(r.status_code, status.HTTP_200_OK)
+        self.assertEquals(user.username, payload['username'])
+        self.assertEquals(user.first_name, payload['first_name'])
+        self.assertEquals(user.last_name, payload['last_name'])
+        self.assertEquals(user.email, payload['email'])
+
+    def test_username_already_taken(self):
+        user: User = UserFactory()
+        user2: User = UserFactory()
+        header = get_auth_headers(username=user.username, client=self.client)
+        payload = {'username': user2.username, 'first_name': faker.unique.first_name(),
+                   'last_name': faker.unique.last_name(), 'email': faker.unique.email()}
+        r = self.client.put(path=reverse('update-info'), data=payload, content_type='application/json', **header)
+        self.assertEquals(r.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_email_already_taken(self):
+        user: User = UserFactory()
+        user2: User = UserFactory()
+        header = get_auth_headers(username=user.username, client=self.client)
+        payload = {'username': faker.unique.first_name(), 'first_name': faker.unique.first_name(),
+                   'last_name': faker.unique.last_name(), 'email': user2.email}
+        r = self.client.put(path=reverse('update-info'), data=payload, content_type='application/json', **header)
+        self.assertEquals(r.status_code, status.HTTP_400_BAD_REQUEST)

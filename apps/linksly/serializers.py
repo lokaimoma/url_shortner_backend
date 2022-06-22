@@ -1,4 +1,5 @@
 # Created by Kelvin_Clark on 4/27/22, 2:19 PM
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from rest_framework import serializers
@@ -31,3 +32,15 @@ class URLSerializer(serializers.ModelSerializer):
         instance.status = validated_data.get('status', instance.status)
         instance.save()
         return instance
+
+
+class UserInfoUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+    def validate_email(self, value: str):
+        users = User.objects.filter(email__iexact=value)
+        if len(users) > 0:
+            raise serializers.ValidationError('Email is already taken')
+        return value

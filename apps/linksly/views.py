@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -12,7 +12,7 @@ from strawberry.django.views import GraphQLView
 
 from apps.linksly.models import URL
 from apps.linksly.permissions import IsOwner
-from apps.linksly.serializers import URLSerializer
+from apps.linksly.serializers import URLSerializer, UserInfoUpdateSerializer
 
 
 class URLViewSet(viewsets.ModelViewSet):
@@ -49,3 +49,11 @@ class LinkslyGraphqlView(GraphQLView):
             'request': request,
             'response': response
         }
+
+
+class UpdateUserInfoView(generics.UpdateAPIView):
+    serializer_class = UserInfoUpdateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
