@@ -3,7 +3,7 @@ Linksly is a lite implementation url shortening application.
 This is the backend part of the whole application built with
 Django.
 
-![Test_Work_Flow](https://github.com/lokaimoma/url_shortner_backend/actions/workflows/run_tests.yml/badge.svg)
+![Test_Work_Flow](https://github.com/lokaimoma/url_shortner_backend/actions/workflows/test_runner.yml/badge.svg)
 
 ## Requirements
 
