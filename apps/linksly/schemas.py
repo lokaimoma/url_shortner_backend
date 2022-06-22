@@ -31,8 +31,8 @@ class Query:
 
     @strawberry.field
     def top_links(self, info: Info) -> List[Url]:
-        return [Url(code=url.code, long_url=url.long_url, date_created=url.date_created,
-                    status=url.date_created.__str__(), redirects=url.redirects) for url in
+        return [Url(code=url.code, long_url=url.long_url, date_created=url.date_created.__str__(),
+                    status=url.status, redirects=url.redirects) for url in
                 URL.objects.filter(Q(user_id=info.context['request'].user.id) &
                                    Q(redirects__gt=5)).order_by('-redirects')[0:6]
                 ]
