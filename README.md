@@ -1,7 +1,7 @@
 <h3 style='color: #5754FE'>Linksly</h3>
-Linksly is a lite implementation url shortening application.
-This is the backend part of the whole application built with
-Django.   
+Linksly is a lite url shortening application.
+This is the backend part of the application built with
+Django.
 
 ![Test_Work_Flow](https://github.com/lokaimoma/url_shortner_backend/actions/workflows/test_runner.yml/badge.svg)
 
