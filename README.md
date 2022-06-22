@@ -3,7 +3,12 @@ Linksly is a lite url shortening application.
 This is the backend part of the application built with
 Django. The frontend can be found [here.](https://github.com/lokaimoma/url-shotner-frontend)
 
-# ![Test_Work_Flow](https://github.com/lokaimoma/url_shortner_backend/actions/workflows/test_runner.yml/badge.svg)
+![Test_Work_Flow](https://github.com/lokaimoma/url_shortner_backend/actions/workflows/test_runner.yml/badge.svg)
+
+## Demo
+
+Click on the image to watch a demo of the application
+[![THe video image](https://github.com/lokaimoma/url-shotner-frontend/blob/main/images/thumb.png)](https://youtu.be/82kETKDubrU)
 
 ## Requirements
 
@@ -40,30 +45,39 @@ DATABASE_PASSWORD=password
   go with `MySQL` you will have to change the default database backend.
   [You can follow this link to know how to change the database backend to your preferred one.](https://docs.djangoproject.com/en/4.0/ref/databases/)
 + Run this command in the project root to create all the database tables
+
 ```bash
 poetry run python3 manage.py migrate
 ```
+
 + Run the project with the command
+
 ```bash
 poetry run python3 manage.py runserver
 ```
 
 ## WebRoutes
+
 The runs by default on `localhost:8000`. To see all the available routes go
 to `locahost:8000/api/` or check `urls.py` file.
 
 ## Tests
+
 All tests are in the `tests` directory. To run the tests run the command
+
 ```bash
 poetry run python3 manage.py test
 ```
+
 ## Technologies & Libraries Used
+
 + [Django](https://www.djangoproject.com/)
 + [Django Rest Framework](https://www.django-rest-framework.org/)
 + [Django Simple JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
 + Etc...
 
 ## License
+
 ```
       
 MIT License
