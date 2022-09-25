@@ -18,7 +18,7 @@ strawberry-graphql = "^0.114.2"
 
 [tool.poetry.dev-dependencies]
 factory-boy = "^3.2.1"
-Faker = "^13.3.5"
+Faker = "^14.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
